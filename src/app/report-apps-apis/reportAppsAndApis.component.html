@@ -1,0 +1,54 @@
+<style>
+    table, th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+      padding: 5px;
+    }
+
+    th {
+    background-color: #80ced6;
+    }
+
+    table tr:nth-child(odd) {
+      background-color: #f1f1f1;
+    }
+    table tr:nth-child(even) {
+      background-color: #ffffff;
+    }
+    </style>
+
+  {{status}}
+  <div *ngIf="!status">
+  <H2> APIs with application usage</H2>
+  <B>[{{getStartEndDisplayDate(myReport)}}]</B>
+  <BR>
+  <BR>
+  <table>
+    <tr>
+    <th>API</th>
+    <th>API version</th>
+    <th>Applications</th>
+    <th>Total calls</th>
+    </tr>
+
+    <tr *ngFor="let api of apis">
+        <td>{{api.name}}</td> 
+        <td>{{api.version}}</td> 
+        <td>
+          <ul>
+          <li *ngFor="let app of api.application">
+            {{app.appname}}
+          </li>
+        </ul>
+      </td>
+      <td>
+        <ul style="list-style: none;">
+          <li *ngFor="let app of api.application">
+              {{app.total}}
+          </li>
+        </ul>
+
+        </td>
+    </tr>
+</table>
+</div>

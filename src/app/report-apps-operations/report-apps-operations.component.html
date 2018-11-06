@@ -1,0 +1,46 @@
+<style>
+    table, th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+      padding: 5px;
+    }
+
+    th {
+    background-color: #80ced6;
+    }
+
+    table tr:nth-child(odd) {
+      background-color: #f1f1f1;
+    }
+    table tr:nth-child(even) {
+      background-color: #ffffff;
+    }
+    </style>
+
+
+
+
+  {{status}}
+  <div *ngIf="!status">
+  <H2> APIs with application usage</H2>
+  <B>[{{getStartEndDisplayDate(myReport)}}]</B>
+  <BR>
+  <BR>
+  <table>
+      <tr>
+          <th>API</th>
+          <th>API version</th>
+          <th>Application</th>
+          <th>Operation</th>
+          <th>Calls by Operation</th>
+          </tr>
+
+          <tr *ngFor="let app of AppsWithOperations">
+              <td>{{app.apiname}}</td> 
+              <td>{{app.apiversion}}</td> 
+              <td>{{app.appname}}</td>
+              <td> {{ app.operation }} </td>
+              <td> {{ app.total }} </td>
+          </tr>
+</table>
+</div>

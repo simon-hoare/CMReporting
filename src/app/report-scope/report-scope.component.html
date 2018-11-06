@@ -1,0 +1,25 @@
+
+  <B>Filter APIs by name:</B><br/>
+  <p></p>
+  <mat-radio-group class="report-radio-group" [(ngModel)]="report.scope">
+      <mat-radio-button value="All">All APIs</mat-radio-button>
+      <mat-radio-button value="Enterprise">Enterprise APIs</mat-radio-button>
+      <mat-radio-button value="Other">API name starts with..</mat-radio-button>
+    </mat-radio-group>
+  
+  <div *ngIf= "report.scope  == 'Other'">
+      <p></p>
+      <mat-form-field class="report-api-prefix">
+          <input matInput placeholder="API name" value="" [(ngModel)]="report.apinameprefix">
+        </mat-form-field>
+
+  </div>
+  <p></p>
+  <BR>
+  <p></p>
+
+  
+
+
+
+

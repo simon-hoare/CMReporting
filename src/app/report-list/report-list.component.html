@@ -1,0 +1,13 @@
+<h2>Available reports:</h2>
+<ul class="Reports">
+  <li *ngFor="let report of reports"
+    [class.selected]="report === selectedReport"
+    (click)="onSelect(report)">
+    <span class="badge">{{report.id}}</span> {{report.name}}
+  </li>
+</ul>
+ 
+
+<div *ngIf="selectedReport">
+ <app-report-detail [report]="selectedReport"></app-report-detail>
+</div>

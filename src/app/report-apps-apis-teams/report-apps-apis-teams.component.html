@@ -1,0 +1,51 @@
+
+  
+
+ {{status}}
+  <div *ngIf="!status">
+  <H2> APIs with application metrics and team members</H2>
+  <B>[{{getStartEndDisplayDate(myReport)}}]</B>
+  <BR>
+  <BR>
+    <table  class="outer-table">
+      <tr>
+          <th class="outer-header">API</th>
+          <th class="outer-header"  >API version</th>
+          <th class="outer-header" style = "width:600px" >Applications, Team members and Total calls</th>
+      </tr>
+
+      <tr class="outer-row" *ngFor="let api of apis">
+        <td class="outer-cell">{{api.name}}</td> 
+        <td class="outer-cell">{{api.version}}</td> 
+        <td class="outer-cell">
+            <table class="embedded-table">
+
+                <ul>
+                    <tr class="embedded-table" *ngFor="let app of api.application">
+
+                      <td class="embedded-table" style = "width:200px">
+                      {{app.appname}}
+                     </td>
+                     <td class="embedded-table" style = "width:300px">
+                        <ul>
+                          <li *ngFor="let member of app.members">
+                          {{member}}
+                          </li>
+                        </ul>
+                    </td>
+                    <td class="embedded-table" style = "width:85px">
+                        <ul>
+                          
+                          {{app.total}}
+                          
+                        </ul>
+                    </td>
+              
+                    </tr>
+                  </ul>
+
+            </table>
+        </td>  
+      </tr>
+</table>
+</div>

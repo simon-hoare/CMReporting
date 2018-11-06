@@ -1,0 +1,26 @@
+
+<BR>
+<B>Filter metrics by date range:</B><br/>
+<p></p>
+<mat-form-field>
+  <input matInput [matDatepicker]="picker" placeholder="Set start date:" [(ngModel)]= "report.startDate" >
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+
+ 
+<input type="time"  [(ngModel)]="report.startTime">
+
+<BR>
+<mat-form-field>
+  <input matInput [matDatepicker]="picker2" placeholder="Set end date:" [(ngModel)]="report.endDate" >
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2></mat-datepicker>
+</mat-form-field>
+
+<input type="time"  [(ngModel)]="report.endTime">
+<BR>
+<BR>
+
+
