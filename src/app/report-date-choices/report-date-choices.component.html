@@ -1,0 +1,28 @@
+<BR>
+  <B>Filter metrics by date range:</B><br/>
+  <p></p>
+  <mat-radio-group class="report-radio-date-group" [(ngModel)]="report.datetypechoice">
+    <mat-radio-button value="LastHour">Previous Hour</mat-radio-button>
+    <mat-radio-button value="Today">Today</mat-radio-button>
+    <mat-radio-button value="Previousweek">Last seven days</mat-radio-button>
+    <mat-radio-button value="Month">Month..</mat-radio-button>
+    <mat-radio-button value="Year">Year..</mat-radio-button>
+  </mat-radio-group>
+
+<div *ngIf= "report.datetypechoice  == 'Month'">
+    <p></p>
+    <mat-form-field class="report-date-month">
+        <input matInput type="month" min="2016-01" placeholder="Month:"   [(ngModel)]="report.monthchoice">
+      </mat-form-field>
+
+</div>
+<div *ngIf= "report.datetypechoice  == 'Year'">
+  <p></p>
+  <mat-form-field class="report-date-year">
+      <input matInput type="number" placeholder="Year:" min="2016" [(ngModel)]="report.yearchoice">
+    </mat-form-field>
+
+</div>
+<p></p>
+<BR>
+<p></p>

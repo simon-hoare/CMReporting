@@ -1,8 +1,9 @@
 <div *ngIf="report">
 
 <p><B>Set report parameters for report:</B> {{report.name}} </p>
-
-<app-report-date [report]="report"></app-report-date>
+<app-report-date-choices [report]="report"></app-report-date-choices>
 <app-report-scope [report]="report"></app-report-scope>
 <app-button-run [report]="report"></app-button-run>
+
+
 </div>

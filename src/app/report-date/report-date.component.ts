@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Report } from '../report';
 
+/** Took this out because we can't do arbitrary date range queries */
 
 @Component
 (

@@ -1,7 +1,9 @@
+import { Injectable } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Report } from '../report'; 
 import { ReportsService } from '../reports.service';
 import { CMAPisService } from '../cmapis.service';
+import { MessageService } from '../message.service';
 import { ApiVersionChannel } from '../ApiVersionChannel';
 import { ApiVersionItem } from '../ApiVersionItem';
 import { API } from '../API';
@@ -16,21 +18,32 @@ import { AppMembers } from '../AppMembers';
   templateUrl: './report-apps-apis-teams.component.html',
   styleUrls: ['./report-apps-apis-teams.component.css']
 })
+
+@Injectable({
+  providedIn: 'root'
+})
 export class ReportAppsApisTeamsComponent implements OnInit {
   reports : Report[];
   myReport : Report;
   status:string = "Loading..";
   apis:API[] = [];
+  allAPITotal : number = 0;
+  totalConsumers: number = 0;
+  totalAPIs :number =0;
+  consumsersSet : Set<string> = new Set();
 
 
   constructor(private reportService: ReportsService,
-              private cmapi:CMAPisService) { }
+              private cmapi:CMAPisService,
+              private messageService:MessageService) { }
 
-              ngOnInit() {
+    ngOnInit() {
+                this.messageService.clear();
+                this.messageService.add("Loading..");
                 this.getReports();
               
                
-                this.cmapi.LoginCM("administratorlm@mayo.edu","").subscribe((result) => {
+                this.cmapi.LoginCM("administratorlm@mayo.edu","dogmeow").subscribe((result) => {
                   // This code will be executed when the HTTP call returns successfully 
                   let keys = result.headers.keys();
               
@@ -49,6 +62,17 @@ export class ReportAppsApisTeamsComponent implements OnInit {
                       if (this.IncludeAPI(api))
                       {
                         this.apis.push(api);
+                        
+                        // sort the array case insensitive
+                        let sortedApis:API[] = this.apis.slice(0);
+                        sortedApis.sort((leftside,rightside): number => {
+                          if (leftside.name.toLowerCase() < rightside.name.toLowerCase()) return -1;
+                          if (leftside.name.toLowerCase() > rightside.name.toLowerCase()) return 1;
+                          return 0;
+                        });
+                        this.apis = sortedApis;
+
+                        this.totalAPIs = this.apis.length;
             
                       // get the connected apps
                       this.cmapi.getConnectedApps(api).subscribe((result) => {
@@ -63,6 +87,8 @@ export class ReportAppsApisTeamsComponent implements OnInit {
                            if (entity.Category[0].value == 'app') {
                               let  appId = entity.Guid;
                               let connectedAppName = entity.Title;
+                              this.consumsersSet.add(connectedAppName);
+                              this.totalConsumers = this.consumsersSet.size;
               
                              // get the connected apps
                               this.cmapi.getAppVersions(appId).subscribe((result) => {
@@ -73,17 +99,22 @@ export class ReportAppsApisTeamsComponent implements OnInit {
                                   let  appVersionId = appversionsitem.guid.value;
             
                                   // get the metrics for this app version
-                                  let start:string = Report.getAPICallFormatDate(this.myReport.startDate, this.myReport.startTime);
-                                  let end:string = Report.getAPICallFormatDate(this.myReport.endDate, this.myReport.endTime);
-                                  this.cmapi.getAppVersionMetrics(appVersionId, api.versionID,start,end).subscribe((result) => {
+                                  let start:string = this.myReport.getStartDate();
+                                  let end:string = this.myReport.getEndDate();
+                                  let duration:string = this.myReport.getDUration();
+                                  let timeinterval:string = this.myReport.getTimeInterval();
+                                  this.cmapi.getAppVersionMetrics(appVersionId, api.versionID,start,end,duration,timeinterval).subscribe((result) => {
             
                                     let total = 0;
                                     let metrics:AppVersionApiVersionMetrics = result.body;
+                                    this.myReport.endDate = metrics.EndTime;
+                                    this.myReport.startDate = metrics.StartTime;
+
                                     for (let metricValue of metrics.Summary.Metric) {
                                       if (metricValue.Name == "totalCount")
                                             total = metricValue.Value;
                                     }
-            
+                                    this.allAPITotal = this.allAPITotal + total;
                                     
                                     let app:Application = new Application();
                                      app.appname = connectedAppName;
@@ -92,6 +123,8 @@ export class ReportAppsApisTeamsComponent implements OnInit {
                                      app.version = '';
                                      app.members = [];
                                      api.application.push(app);
+                                     this.messageService.clear();
+
                                      this.cmapi.getAppTeamMembers(appId).subscribe((result) => {
                                       
                                        var members : AppMembers = Object.assign(new AppMembers(), result.body);

@@ -16,9 +16,12 @@
       background-color: #ffffff;
     }
     </style>
-
-  {{status}}
-  <div *ngIf="!status">
+  <app-messages></app-messages>
+<P></P>
+  Total calls: {{allAPITotal}} <BR>
+  Unique consumers: {{totalConsumers}} <BR>
+  APIs: {{totalAPIs}} <BR>
+    <div *ngIf="!status">
   <H2> APIs with application usage</H2>
   <B>[{{getStartEndDisplayDate(myReport)}}]</B>
   <BR>

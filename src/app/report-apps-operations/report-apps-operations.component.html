@@ -20,27 +20,37 @@
 
 
 
-  {{status}}
-  <div *ngIf="!status">
-  <H2> APIs with application usage</H2>
+<app-messages></app-messages>
+<p></p>
+
+  Total calls: {{allAPITotal}} <BR>
+  Unique consumers: {{totalConsumers}} <BR>
+  APIs: {{totalAPIs}} <BR>
+<div *ngIf="!status">
+  <H2> APIs with application usage by operation</H2>
   <B>[{{getStartEndDisplayDate(myReport)}}]</B>
   <BR>
   <BR>
-  <table>
-      <tr>
-          <th>API</th>
-          <th>API version</th>
-          <th>Application</th>
-          <th>Operation</th>
-          <th>Calls by Operation</th>
-          </tr>
 
-          <tr *ngFor="let app of AppsWithOperations">
-              <td>{{app.apiname}}</td> 
-              <td>{{app.apiversion}}</td> 
-              <td>{{app.appname}}</td>
-              <td> {{ app.operation }} </td>
-              <td> {{ app.total }} </td>
-          </tr>
-</table>
+
+
+
+    <table>
+        <tr>
+            <th>API</th>
+            <th>API version</th>
+            <th>Application</th>
+            <th>Operation</th>
+            <th>Calls by Operation</th>
+            </tr>
+  
+            <tr *ngFor="let app of AppsWithOperations">
+                <td>{{app.apiname}}</td> 
+                <td>{{app.apiversion}}</td> 
+                <td>{{app.appname}}</td>
+                <td> {{ app.operation }} </td>
+                <td> {{ app.total }} </td>
+            </tr>
+  </table>
+
 </div>

@@ -1,8 +1,13 @@
 
   
 
- {{status}}
-  <div *ngIf="!status">
+ <app-messages></app-messages>
+
+  <P></P>
+  Total calls: {{allAPITotal}} <BR>
+  Unique consumers: {{totalConsumers}} <BR>
+  APIs: {{totalAPIs}} <BR>
+<div *ngIf="!status"> 
   <H2> APIs with application metrics and team members</H2>
   <B>[{{getStartEndDisplayDate(myReport)}}]</B>
   <BR>
